@@ -22,25 +22,31 @@ export default {
     },
     methods: {
     getFilm() {
-        if (store.searchFilm !== '') {
-            store.apiUrl += `&query=${store.searchFilm}`
-        }
-        axios.get(store.apiUrl).then((response) => {
+            if (store.searchFilm !== '') {
+                store.filmUrl += `&query=${store.searchFilm}`;
+                store.tvUrl += `&query=${store.searchFilm}`;
+            }
+            axios.get(store.tvUrl).then((response) => {
+                store.tvsObj = response.data.results;
+                console.log(store.tvsObj);
+            })
+            axios.get(store.filmUrl).then((response) => {
             store.filmsObj = response.data.results;
+            //store.loading = false
             console.log(store.filmsObj);
-        })
+            })
         }
     }
 }
 </script>
 
 <template>
-    <div class="header">
-        <AppHeader @filmSearch="getFilm" />  
-    </div>
-    <div class="main">
-        <AppMain />
-    </div>
+<div class="header">
+    <AppHeader @filmSearch="getFilm" />                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     
+</div>
+<div class="main">
+    <AppMain />
+</div>
 </template>
 
 <style lang="scss">
