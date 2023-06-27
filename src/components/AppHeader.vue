@@ -13,10 +13,13 @@ export default {
 <template>
     <div class="container">
         <div class="row">
-            <div class="col">
-                <div class="col-6 d-flex p-4">
-                    <input class="form-control" type="text" list="datalistOptions" id="exampleDataList" placeholder="Cerca il tuo film" v-model="store.searchFilm" @keyup.enter="$emit('filmSearch')">
-                    <button type="button" class=" ms-5 btn btn-primary" @click="$emit('filmSearch')">Cerca</button>
+            <div class="col d-flex justify-content-between">
+                <div>
+                    <h1>Boolflix</h1>
+                </div>
+                <div class="search-container d-flex align-items-center">
+                    <input class="form-control form-control-sm me-2" type="text" list="datalistOptions" id="exampleDataList" placeholder="Cerca il tuo film" v-model="store.searchFilm" @keyup.enter="$emit('filmSearch')" />
+                    <button type="button" class="btn btn-danger text-white btn-sm" @click="$emit('filmSearch')">Cerca</button>
                 </div>
             </div>
         </div>

@@ -8,14 +8,11 @@ export default {
             store
         }
     },
-    computed: {
-        
-    },
     methods: {
         getCountryFlag(language) {
         return `../../node_modules/country-flag-icons/1x1/${language.toUpperCase()}.svg`;
         },
-    },
+    }
 }
 </script>
 
@@ -77,12 +74,6 @@ img {
 .cntr-flag{
     width: 20px;
     height: 15px;
-}
-.tv {
-    background-color: purple;
-}
-.film {
-    background-color: pink;
 }
 .card {
     width: 18rem;
