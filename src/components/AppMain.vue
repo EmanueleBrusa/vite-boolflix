@@ -30,11 +30,18 @@ export default {
                                 <img :src="`https://image.tmdb.org/t/p/w342/${film.poster_path}`" alt="">
                                 <div class="film d-flex">
                                     <div class="me-3">{{ film.original_title }}</div>
-                                    <div class="me-3">{{ film.original_title }}</div>
                                     <img class="cntr-flag"
                                         :src="`../../node_modules/country-flag-icons/1x1/${film.original_language.toUpperCase()}.svg`"
                                         :alt="film.original_language.toUpperCase()">
-                                    <div class="me-3">{{ film.vote_average }}</div>
+                                    <!--<div class="me-3">{{ film.vote_average }}</div>-->
+                                    <div>
+                                        <span>
+                                            Voto:&nbsp;
+                                            <i v-for="star in Math.round(film.vote_average / 2)" :key="star" class="fa-solid fa-star" style="color: #e9e316"></i>
+                                            <i v-for="star in Math.round(5 - film.vote_average / 2)" :key="star" class="fa-regular fa-star" style="color: #e9e316"></i>
+                                        </span>
+                                    </div>
+                                    
                                 </div>
                             </li>
                         </ul>
