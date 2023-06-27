@@ -21,7 +21,7 @@ export default {
         this.getFilm()
     },
     methods: {
-    getFilm() {
+        getFilm() {
             if (store.searchFilm !== '') {
                 store.filmUrl += `&query=${store.searchFilm}`;
                 store.tvUrl += `&query=${store.searchFilm}`;
@@ -32,7 +32,6 @@ export default {
             })
             axios.get(store.filmUrl).then((response) => {
             store.filmsObj = response.data.results;
-            //store.loading = false
             console.log(store.filmsObj);
             })
         }
