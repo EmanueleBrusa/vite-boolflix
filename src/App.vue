@@ -12,34 +12,31 @@ export default {
         AppHeader,
         AppMain,
     },
-    data() {
-        return {
+    data(){
+        return{
             store
         }
     },
     mounted(){
-        this.getFilm();
+        this.getFilm()
     },
     methods: {
-      getFilm(){
-        
-            let myUrl = store.apiUrl;
-            
-            if (store.searchValue !== '') {
-                myUrl += `&query=${store.searchValue}`;
-            }
-            
-            axios.get(myUrl).then((response) => {
-                store.list = response.data.results;
-            });
-        } 
+    getFilm() {
+        if (store.searchFilm !== '') {
+            store.apiUrl += `&query=${store.searchFilm}`
+        }
+        axios.get(store.apiUrl).then((response) => {
+            store.filmsObj = response.data.results;
+            console.log(store.filmsObj);
+        })
+        }
     }
 }
 </script>
 
 <template>
     <div class="header">
-        <AppHeader @search="getFilm"/>  
+        <AppHeader @filmSearch="getFilm" />  
     </div>
     <div class="main">
         <AppMain />
@@ -47,5 +44,5 @@ export default {
 </template>
 
 <style lang="scss">
-@use '../src/styles/generals.scss' as*;
+@use './styles/generals.scss' as*;
 </style>

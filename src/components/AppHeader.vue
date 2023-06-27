@@ -13,10 +13,11 @@ export default {
 <template>
     <div class="container">
         <div class="row">
-            <h1>BOOLFLIX</h1>
-            <div class="input-group rounded">
-                <input type="search" class="form-control rounded" placeholder="Ricerca qui il tuo film o serie preferita" aria-label="Search" aria-describedby="search-addon" v-model="store.searchValue"/>
-                <button class="m-1" @click="$emit('search')">Ricerca</button>
+            <div class="col">
+                <div class="col-6 d-flex p-4">
+                    <input class="form-control" type="text" list="datalistOptions" id="exampleDataList" placeholder="Cerca il tuo film" v-model="store.searchFilm" @keyup.enter="$emit('filmSearch')">
+                    <button type="button" class=" ms-5 btn btn-primary" @click="$emit('filmSearch')">Cerca</button>
+                </div>
             </div>
         </div>
     </div>
