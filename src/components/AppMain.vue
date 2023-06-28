@@ -8,6 +8,14 @@ export default {
           store
       }
   },
+  computed: {
+    hasFilms(){
+      return this.store.filmsObj.length > 0;
+    },
+    hasTVs() {
+      return this.store.tvsObj.length > 0;
+    }
+  },
   methods: {
       getCountryFlag(language) {
       return `../../node_modules/country-flag-icons/1x1/${language.toUpperCase()}.svg`;
@@ -19,12 +27,20 @@ export default {
 <template>
 <div class="container">
   <div class="row">
+    <!--sezione film-->
+    <h1 v-if="hasFilms">Film:</h1>
     <div class="col-4" v-for="(film, index) in store.filmsObj" :key="index">
       <!--copertina-->
       <!--problemi con hover e testo sovrapposto, test da qui:-->
       <div class="card my-4">
-        <!--poster-->
-        <img class="poster" :src="`https://image.tmdb.org/t/p/w342/${film.poster_path}`" alt=""> <!--qui mettere la copertina-->
+        <!--POSTER con controllo per immagini mancanti-->
+        <div v-if="film.poster_path !== null">
+          <img class="poster" :src="`https://image.tmdb.org/t/p/w342/${film.poster_path}`" alt="">
+        </div>
+        <div v-else>
+          <img src="../../public/picture-not-available-clipart-12.jpg" alt="Immagine non disponibile" class="img_not_found">
+        </div>
+        <!--cardbody per tutte le info aggiuntive-->
         <div class="card-body">
           <!--flag-->
           <img class="cntr-flag"
@@ -37,12 +53,14 @@ export default {
           <!--voto-->
           <span>
             <h4>Voto:
-            <i v-for="star in Math.round(film.vote_average / 2)" :key="star" class="fa-solid fa-star" style="color: #e9e316"></i>
-            <i v-for="star in Math.round(5 - film.vote_average / 2)" :key="star" class="fa-regular fa-star" style="color: #e9e316"></i>
+            <i v-for="n in 5" :key="n" style="color: #e9e316" class="fa-star" :class="(n <= Math.ceil(film.vote_average / 2)) ? 'fas' : 'far'"></i>
+            <!--<i v-for="star in Math.round(film.vote_average / 2)" :key="star" class="fa-solid fa-star" style="color: #e9e316"></i>
+            <i v-for="star in Math.round(5 - film.vote_average / 2)" :key="star" class="fa-regular fa-star" style="color: #e9e316"></i>-->
             </h4>
           </span>
           <!--overview---->
-          <div class="me-3 card-info"><h4>Overview:</h4> {{ film.overview }}</div>
+          <h4>Overview:</h4>
+          <div class="me-3 card-info"> {{ film.overview }}</div>
           <!--bottone-->
         <button class="card-button">watch now</button>
         </div>
@@ -52,12 +70,20 @@ export default {
 </div>
 <!-- visualizzazione serie tv -->
 <div class="container">
-  <div class="tv-wrapper row">
+  <div class="row">
+    <!--sezione serie tv-->
+    <h1 v-if="hasTVs">Serie Tv:</h1>
     <!--RIPRENDERE A LAVORARE DA QUESTO PEZZO-->
     <div class="col-4" v-for="(tv, index) in store.tvsObj" :key="index">
-      <!--coperina-->
       <div class="card my-4">
-        <img class="poster" :src="`https://image.tmdb.org/t/p/w342/${tv.poster_path}`" alt=""> <!--qui mettere la copertina-->
+        <!--controllo per poster come sopra-->
+        <div v-if="tv.poster_path !== null">
+          <img class="poster" :src="`https://image.tmdb.org/t/p/w342/${tv.poster_path}`" alt=""> <!--qui mettere la copertina-->
+        </div>
+        <div v-else>
+          <img src="../../public/picture-not-available-clipart-12.jpg" alt="Immagine non disponibile" class="img_not_found">
+        </div>
+        <!--body-->
         <div class="card-body">
             <!--flag-->
             <img class="cntr-flag"
@@ -68,13 +94,15 @@ export default {
             <!--sottotitolo-->
             <div class="me-3 card-subtitle"><h4>Titolo originale:</h4> {{ tv.original_name }}</div>
             <!--voto-->
-            <span>
-                <h4>Voto:
-                <i v-for="star in Math.round(tv.vote_average / 2)" :key="star" class="fa-solid fa-star" style="color: #e9e316"></i>
-                <i v-for="star in Math.round(5 - tv.vote_average / 2)" :key="star" class="fa-regular fa-star" style="color: #e9e316"></i>
-                </h4>
+            <span class="card-vote">
+              <h4>Voto:
+              <i v-for="n in 5" :key="n" style="color: #e9e316" class="fa-star" :class="(n <= Math.ceil(tv.vote_average / 2)) ? 'fas' : 'far'" ></i>
+              <!--<i v-for="star in Math.round(tv.vote_average / 2)" :key="star" class="fa-solid fa-star" style="color: #e9e316"></i>
+              <i v-for="star in Math.round(5 - tv.vote_average / 2)" :key="star" class="fa-regular fa-star" style="color: #e9e316"></i>-->
+              </h4>
             </span>
             <!--overview-->
+            <h4>Overview:</h4>
             <div class="me-3 card-info">{{ tv.overview }}</div>
             <!--bottone---->
             <button class="card-button">watch now</button>
@@ -87,6 +115,10 @@ export default {
 
 <style lang="scss" scoped>
 @use '../styles/generals.scss' as*;
+h1{
+  color: white;
+  text-shadow: 4px 4px 8px rgba(245, 0, 0, 0.616);
+}
 .poster {
   width: 100%;
   height: 550px;
@@ -134,7 +166,7 @@ li{
 }
 .card-title{
   text-transform: uppercase;
-  font-size: 20px;
+  font-size: 15px;
   font-weight: 500;
   h4{
     font-size: 15px;
@@ -142,17 +174,24 @@ li{
 }
 .card-subtitle{
   text-transform: capitalize;
-  font-size: 20px;
+  font-size: 10px;
   font-weight: 300;
   h4{
     font-size: 15px;
   }
 }
+.card-vote{
+  font-size: 5px;
+}
 .card-info{
+  height: 200px;
   font-size: 15px;
   line-height: 15px;
   margin: 5px 0;
   font-weight: 400;
+  overflow-y: hidden;
+}
+.card-info:hover{
   overflow-y: scroll;
 }
 .card-button{
@@ -166,5 +205,10 @@ li{
   outline: none;
   font-weight: 500;
   cursor: pointer;
+}
+.img_not_found{
+  padding-top: 50px;
+  width: 100%;
+  height: 100%;
 }
 </style>
